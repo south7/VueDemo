@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue嵌套路由</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript" src="vue-router.js"></script>
+
+	<script type="text/javascript">
+		var Nav={
+			template:`
+				<div>
+					<!--子路由入口-->
+					<router-view></router-view>
+					<router-link :to="{name:'nav.home'}">首页</router-link>|
+					<router-link :to="{name:'nav.menu1'}">菜单1</router-link>|
+					<router-link :to="{name:'nav.menu2'}">菜单2</router-link>
+				</div>
+			`
+		}
+		var Home={
+			template:`
+				<div>首页</div>
+			`
+		}
+		var Menu1={
+			template:`
+				<div>菜单1</div>
+			`
+		}
+		var Menu2={
+			template:`
+				<div>菜单2</div>
+			`
+		}
+		Vue.use(VueRouter)
+		var router=new VueRouter({
+			routes:[
+				{
+					path:'/nav',
+					name:'nav',
+					component:Nav,
+					// 路由嵌套增加此属性
+					children:[
+						// 嵌套路由
+						{path:'',redirect:'/nav/home'},//默认路由
+						{path:'home',name:'nav.home',component:Home},
+						{path:'menu1',name:'nav.menu1',component:Menu1},
+						{path:'menu2',name:'nav.menu2',component:Menu2}
+					]
+				}
+			]
+		})
+		new Vue({
+			el:'#app',
+			router,
+			template:`
+				<div>
+					<router-view></router-view>
+				</div>
+			`,
+			data(){
+				return {
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

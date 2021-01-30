@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>slot插槽和ref、$parent</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript"  src="vue.js"></script>
+	<script type="text/javascript">
+		
+		var Child={
+			template:`
+				<div>我是子组件</div>
+			`,
+			created(){
+				console.log(this.$parent)
+			}
+		}
+		var Parent={
+			template:`
+				<div>
+				我是父组件
+				<slot name="hello"></slot>
+				<child ref="childs"></child>
+				</div>
+			`,
+			components:{
+				Child
+			},
+			mounted(){
+				console.log(this.$refs.childs)
+			}
+		}
+		
+		new Vue({
+			el:'#app',
+			components:{
+				Parent
+			},
+			template:`
+				<div>
+					<parent>
+						<div>我是插槽内容</div>
+						<div slot="hello">我是插槽内容hello</div>
+					</parent>
+				</div>
+			`,
+			data(){
+				return {}
+			}
+		})
+	</script>
+</body>
+</html>

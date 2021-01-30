@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>过滤器</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" name="" v-model="myInput"><br>
+		{{myInput}}<br>
+		组件内的过滤器1:  {{myInput|firstFilter}}<br>
+		{{myInput|secondFilter('组件内的过滤器2: ')}}<br>
+		{{myInput|globalFilter('全局过滤器: ')}}
+	</div>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+		// 全局过滤器
+		Vue.filter('globalFilter',function(val,arg2){
+			return arg2 + val +'globalFilter'
+		})
+		new Vue({
+			el:'#app',
+			data(){
+				return {
+					myInput:''
+				}
+			},
+			// 组件内的过滤器
+			filters:{
+				firstFilter(val){
+					return val + 'firstFilter'
+				},
+				// 这里的参数对应为myInput和'组件内的过滤器2: '
+				secondFilter(val,arg2){
+					return arg2 + val + 'secondFilter'
+				},
+			}
+		})
+	</script>
+</body>
+</html>

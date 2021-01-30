@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue路由的跳转方式使用</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript" src="vue-router.js"></script>
+
+	<script type="text/javascript">
+		var Login={
+			template:`
+				<div>我是登录页面</div>
+			`
+		}
+		var Reg={
+			template:`
+				<div>我是注册页面</div>
+			`
+		}
+		var Home={
+			template:`
+				<div>我是主页面</div>
+			`
+		}
+		Vue.use(VueRouter)
+		var router=new VueRouter({
+			routes:[
+				{path:'/login',name:'login',component:Login},
+				{path:'/reg',name:'reg',component:Reg},
+				{path:'/home',name:'home',component:Home}
+			]
+		})
+		new Vue({
+			el:'#app',
+			router,
+			template:`
+				<div>
+					<router-link to='/login'>去登录</router-link>||
+					<router-link to='/reg'>去注册</router-link>
+					<div>
+						<button @click='goHome'>去主页面</button>||
+						<button @click='goBack'>返回上一页</button>
+					</div>
+					<router-view></router-view>
+				</div>
+			`,
+			data(){
+				return {
+
+				}
+			},
+			methods:{
+				goHome(){
+					//this.$router.push({path:'/home'})
+					this.$router.replace({path:'/home'})
+				},
+				goBack(){
+					this.$router.go(-1)
+				}
+			}
+		})
+	</script>
+</body>
+</html>

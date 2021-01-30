@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>watch和computed</title>
+</head>
+<body>
+	<div id="app">
+		<div>watch监听简单数据</div>
+		<input type="text" name="" v-model="msg"><br>
+		<input type="text" name="" v-model="msg2.text">
+		<div>computed计算属性</div>
+		<input type="" name="" v-model='n1'>+<input type="" name="" v-model="n2">
+		={{result}}
+	</div>
+
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data(){
+				return {
+					msg: '',
+					msg2:{text:''},
+					n1:'',
+					n2:''
+				}
+			},
+			// 监听
+			watch:{
+				// 监听简单数据类型
+				msg(newval,oldval){
+					console.log(newval,oldval)
+				},
+				// 监听复杂数据类型
+				msg2:{
+					handler(newval,oldval){
+						console.log(newval.text,oldval.text)
+					},
+					deep:true
+				},
+			},
+			// 计算属性
+			computed:{
+				result(){
+					return Number(this.n1)+Number(this.n2)
+				}
+			}
+
+		})
+	</script>
+
+</body>
+</html>

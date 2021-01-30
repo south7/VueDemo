@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript"  src="vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			template:`
+			<div>
+				<div v-text='mytext'></div>
+				<div v-html='myhtml'></div>
+				<button v-if='checkvif'>测试v-if</button>
+
+				<button v-if='num==1'>测试v-if</button>
+				<button v-else-if='num==2'>测试v-else-if</button>
+				<button v-else>测试v-else</button>
+
+				<div v-show='checkShow'>我是v-show</div>
+
+				<ul>
+					<li  v-for='(item,index) in arrayfor'>
+					{{item}}-{{index}}
+					</li>
+				</ul>
+
+				<ul>
+					<li  v-for='(value,key,index) in objfor'>
+					{{value}}:{{key}}:{{index}}
+					</li>
+				</ul>
+
+			</div>
+			`,
+			data:function(){
+				return {
+					mytext: '<h1>我这里是v-text</h1>',
+					myhtml: '<h1>我这里是v-html</h1>',
+					checkvif: true,//false
+					num: 9, //1,2	
+					checkShow:false,//truw
+					arrayfor:['a','b', 'c'],
+					objfor:{ka:'v-a',kb:'v-b',kc:'v-c'}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

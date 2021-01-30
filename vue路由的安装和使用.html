@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>vue路由的安装和使用</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript" src="vue-router.js"></script>
+
+	<script type="text/javascript">
+		var Login={
+			template:`
+				<div>我是登录页面</div>
+			`
+		}
+		Vue.use(VueRouter)
+		var router=new VueRouter({
+			routes:[
+				{path:'/login',name:'login',component:Login}
+			]
+		})
+		new Vue({
+			el:'#app',
+			router,
+			template:`
+				<div>
+					<router-view></router-view>
+				</div>
+			`,
+			data(){
+				return {
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>

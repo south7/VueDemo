@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>父子组件的通信</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+		var Child={
+			template:`
+				<div>
+					我是子组件,{{parentSendToChild}}
+					<button @click='childSendToParent'>子组件反馈给父组件</button>
+				</div>
+			`,
+			props:['parentSendToChild'],
+			methods:{
+				childSendToParent(){
+					this.$emit('pp','Hello parent')
+				}
+			}
+
+		}
+		var Parent={
+			template:`
+				<div>
+					我是父组件
+					{{msg}}
+					<child parentSendToChild='父组件给子组件的' @pp='rece'></child>
+
+				</div>
+			`,
+			components:{
+				Child
+			},
+			data(){
+				return {
+					msg:''
+				}
+			},
+			methods:{
+				rece(val){
+					this.msg=val
+				}
+			}
+		}
+		new Vue({
+			el:"#app",
+			components:{
+				Parent
+			},
+			template:`
+				<div>
+				<parent></parent>
+				</div>
+			`,
+			data(){
+				return{
+
+				}
+			}
+		})
+	</script>
+</body>
+</html>
