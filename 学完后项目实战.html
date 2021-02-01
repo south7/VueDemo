@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>学完后项目实战</title>
+</head>
+<body>
+	<div id="app">
+		<div>
+			商品：<input type="text"	name="" v-model='product'>
+			价格：<input type="text"	name="" v-model='price'>
+			<button @click='add'>添加商品</button>
+		</div>
+		<ul>
+			<li v-for='(list ,index) in productList'>
+				课程名称：{{list.text}}---价格：{{list.price}}
+				<button @click='addToCart(index)'>添加商品</button>
+			</li>
+		</ul>
+		<cart :cartarr='cartarr'></cart>
+	</div>
+	<script type="text/javascript" src="vue.js"></script>
+	<script type="text/javascript">
+		// 购物车部分抽取为组件
+		var Cart={
+			props:['cartarr'],
+			template:`
+				<div>
+					购物车
+					<table border="1">
+						<tr>
+							<th>选中</th>
+							<th>名称</th>
+							<th>数量</th>
+							<th>价格</th>
+						</tr>
+						<tr v-for="(cart,index) in cartarr">
+							<td><input type="checkbox" name="" v-model="cart.active"></td>
+							<td>{{cart.text}}</td>
+							<td>
+								<span @click='reduceCount(index)'>-</span>
+								{{cart.count}}
+								<span @click='addCount(index)'>+</span>
+							</td>
+							<td>{{cart.count * cart.price}}</td>
+						</tr>
+						<tr>
+							<td colspan='2'>选中的：{{activeCount}}/{{count}}</td>
+							<td colspan='2'>总价：{{totalPrice}}</td>
+						</tr>
+					</table>
+				</div>
+			`
+		,
+		computed:{
+			activeCount(){
+				return this.cartarr.filter(v=>v.active).length
+			},
+			count(){
+				return this.cartarr.length
+			},
+			totalPrice(){
+				let total=0
+				this.cartarr.forEach(v=>{
+					if(v.active){
+						total+=v.price*v.count
+					}
+				})
+				return total
+			}
+		},
+		watch:{
+			cartarr:{
+				handler(){
+					window.localStorage.setItem('localStorage_cart',JSON.stringify(this.cartarr))
+				}
+			},
+			deep:true
+		},
+		methods:{
+				reduceCount(index){
+					if(this.cartarr[index].count>1){
+						this.cartarr[index].count--
+					}else{
+						if(window.confirm(`是否删除${this.cartarr[index].text}?`)){
+							this.cartarr.splice(index,1)
+						}
+					}
+				},
+				addCount(index){
+					this.cartarr[index].count++
+				}
+		    }
+		}
+		
+
+		new Vue({
+			el:"#app",
+			components:{
+				Cart
+			},
+			data(){
+				return {
+					productList:[
+						{text:'apple',price:6000},
+						{text:'xiaomi',price:7000},
+						{text:'huawei',price:8000}
+					],
+					product:'',
+					price:'',
+					cartarr:[]
+				}
+			},
+			methods:{
+				add(){
+					// 添加商品
+					this.productList.push({text:this.product,price:this.price})
+					// 清空输入信息
+					this.product=''
+					this.price=''
+				},
+				addToCart(index){
+					const item = this.productList[index]
+					const result = this.cartarr.find(v=>v.text==item.text)
+					if(result){
+						result.count+=1
+					}else{
+						this.cartarr.push({...item,count:1,active:true})
+					}
+				},
+				
+		    },
+		    created(){
+				this.cartarr=JSON.parse(window.localStorage.getItem('localStorage_cart'))
+			}
+			
+		})
+	</script>
+</body>
+</html>
